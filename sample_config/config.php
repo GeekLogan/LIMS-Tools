@@ -1,0 +1,7 @@
+<?
+//THIS IS THE CONFIGURATION FILE
+
+
+
+
+?>
