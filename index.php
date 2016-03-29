@@ -1,3 +1,10 @@
+<?php
+
+require_once("log.php");
+check_log();
+
+?>
+
 <html>
 
 <head>
