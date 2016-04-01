@@ -1,16 +1,24 @@
 <?php
+//THIS IS THE CONFIGURATION FILE
 
-require_once("config.php");
+$password = "1234";
+$dbhost = "localhost";
+$dbuser = "root";
+$dbpass = "";
+$dbname = "";
 
-if( $_POST["pass"] != null ) {
-	if( $_POST["pass"] === $pass ){
-		$_SESSION["logid"] = "TRUE";
+session_start();
+
+function check_log() {
+	if( $_SESSION["logid"] == null ) {
+		header( 'Location: login.php' );
+	}
+}
+
+function check_log_inverse() {
+	if( $_SESSION["logid"] != null ) {
 		header( 'Location: index.php' );
 	}
 }
 
 ?>
-
-<html>
-
-</html>
