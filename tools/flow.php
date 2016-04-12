@@ -29,14 +29,21 @@ th, td {
 <script type="text/javascript">
 $(document).ready(function(){
 	$("input[type='checkbox']").each(function() {
-		this.checked=false;
+		this.checked = false;
 	});
 });
+
+function gen() {
+	toAdd = [];
+	$("tr.datarow").each(function() {
+		alert($(this).html());
+	});
+}
 </script>
 </head>
 <body>
 <h3>Flowcell Tools</h3>
-<table border="1">
+<table border="1" id="fromserver">
 <?php
 
 $keys = array("lib_name", "notebook_ref", "id");
@@ -49,15 +56,21 @@ $res = get_samples();
 while($row = $res->fetch_assoc()){
 	$samp = get_by_id($row["seq_lib_id"]);
 	var_dump($samp);
-	echo "<tr>\n<td><input type='checkbox' checked='false'/></td>\n";
+	echo "<tr class='datarow' id='row_" . $row["seq_lib_id"];
+	echo "'>\n<td><input type='checkbox' checked='false'/></td>\n";
+	$i = 0;
 	foreach( $keys as $key ) {
-		echo "<td>" . $samp[$key] . "</td>\n";
+		echo "<td data_key='".$keys[$i]."'>" . $samp[$key] . "</td>\n";
+		$i = $i + 1;
 	}
-	echo "<td>" . get_multiplex($row["index_tag"], $row["runtype_adapter"]) . "</td>\n";
+	echo "<td data_key='multitag'>" . get_multiplex($row["index_tag"], $row["runtype_adapter"]) . "</td>\n";
 	echo "</tr>\n";
 }
 
 ?>
 </table>
+<br />
+<button onclick="gen()">Generate</button>
+<table id="gentable"></table>
 </body>
 </html>
