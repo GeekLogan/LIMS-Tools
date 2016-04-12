@@ -16,8 +16,8 @@ check_log();
 A list of current tools:
 <ul>
 <li>
-	<a href="tools/new_lib.php">
-		Library Adding
+	<a href="tools/flow.php">
+		Build Flowcell
 	</a>
 </li>
 </ul>
