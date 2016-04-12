@@ -36,8 +36,17 @@ $(document).ready(function(){
 function gen() {
 	toAdd = [];
 	$("tr.datarow").each(function() {
-		alert($(this).html());
+		if($(this).find("input[type='checkbox']")[0].checked) {
+			toAdd.push(this);
+		}
 	});
+
+	if(toAdd.length < 1) {
+		alert("Please Select Samples!");
+		return;
+	}
+
+	//alert("Found " + toAdd.length + " Samples...");
 }
 </script>
 </head>
@@ -55,7 +64,7 @@ echo "<th>Sequence Barcode</th>\n</tr>\n";
 $res = get_samples();
 while($row = $res->fetch_assoc()){
 	$samp = get_by_id($row["seq_lib_id"]);
-	var_dump($samp);
+	echo "<!--"; var_dump($samp); echo "--!>\n";
 	echo "<tr class='datarow' id='row_" . $row["seq_lib_id"];
 	echo "'>\n<td><input type='checkbox' checked='false'/></td>\n";
 	$i = 0;

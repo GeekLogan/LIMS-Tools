@@ -28,7 +28,7 @@ function connect_DB() {
 function log_HTML($txt){
 	echo "<!-- ";
 	echo $txt;
-	echo " --!>";
+	echo " --!>\n";
 }
 
 function qdb($query) {
