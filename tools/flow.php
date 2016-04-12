@@ -27,10 +27,24 @@ th, td {
 }
 </style>
 <script type="text/javascript">
+jQuery.fn.visible = function() {
+    return this.css('display', 'block');
+};
+jQuery.fn.invisible = function() {
+    return this.css('display', 'none');
+};
+jQuery.fn.outerHTML = function(s) {
+  return (s)
+  ? this.before(s).remove()
+  : jQuery("<p>").append(this.eq(0).clone()).html();
+}
+
 $(document).ready(function(){
+	$("table").visible();
 	$("input[type='checkbox']").each(function() {
 		this.checked = false;
 	});
+	$("table#gentable").invisible();
 });
 
 function gen() {
@@ -38,6 +52,7 @@ function gen() {
 	$("tr.datarow").each(function() {
 		if($(this).find("input[type='checkbox']")[0].checked) {
 			toAdd.push(this);
+			console.log("ID Added: " + $(this).attr('id').replace("row_",""));
 		}
 	});
 
@@ -45,6 +60,17 @@ function gen() {
 		alert("Please Select Samples!");
 		return;
 	}
+
+	$("table#fromserver").invisible();
+	$("button#gen").invisible();
+	$("table#gentable").visible();
+
+	toAdd.forEach(function(e, i, arr){
+		$("table#gentable").append( $(e).outerHTML() );
+	});
+	$("table#gentable").find("input[type='checkbox']").parent().invisible();
+	$("table#gentable").prepend( $("#h_row").outerHTML() );
+	$("table#gentable").find("tr").find("#h_sel").invisible();
 
 	//alert("Found " + toAdd.length + " Samples...");
 }
@@ -57,7 +83,7 @@ function gen() {
 
 $keys = array("lib_name", "notebook_ref", "id");
 
-echo "<tr>\n<th>Select</th>\n";
+echo "<tr id='h_row'>\n<th id='h_sel'>Select</th>\n";
 foreach($keys as $key) echo "<th>" . $key . "</th>\n";
 echo "<th>Sequence Barcode</th>\n</tr>\n";
 
@@ -78,8 +104,9 @@ while($row = $res->fetch_assoc()){
 
 ?>
 </table>
-<br />
-<button onclick="gen()">Generate</button>
-<table id="gentable"></table>
+<button id="gen" onclick="gen()">Generate</button>
+<table id="gentable" border="1">
+
+</table>
 </body>
 </html>
